@@ -125,14 +125,16 @@ function makeImmutable(obj) {
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
 function makeWord(lettersObject) {
-  return Object.entries(lettersObject)
-    .reduce((resultArray, [letter, posArray]) => {
-      posArray.forEach((index) => {
-        resultArray[index] = letter;
-      });
-      return resultArray;
-    }, [])
-    .join('');
+  const maxIndex = Math.max(...Object.values(lettersObject).flat());
+  const resultArray = Array(maxIndex + 1).fill('');
+
+  Object.entries(lettersObject).forEach(([letter, posArray]) => {
+    posArray.forEach((index) => {
+      resultArray[index] = letter;
+    });
+  });
+
+  return resultArray.join('');
 }
 
 /**
